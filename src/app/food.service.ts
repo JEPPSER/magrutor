@@ -6,11 +6,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FoodService {
 
-  food: Object;
+  foods;
 
   constructor(private http: HttpClient) {
     this.http.get('/assets/data/nutrient-data.json').subscribe((response) => {
-      this.food = response;
+      this.foods = response;
     });
   }
 }

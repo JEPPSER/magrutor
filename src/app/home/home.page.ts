@@ -11,18 +11,23 @@ import { FoodService } from '../food.service';
 export class HomePage {
 
   searchbar;
-  searchresults;
 
   constructor(private foodService: FoodService, private elementRef: ElementRef) {
   }
 
   ngAfterViewInit() {
     this.searchbar = this.elementRef.nativeElement.querySelector('#searchbar');
-    this.searchresults = this.elementRef.nativeElement.querySelector('#searchresults');
     this.searchbar.addEventListener('ionInput', this.search.bind(this));
   }
 
   search(event) {
-    console.log('hej');
+    const items = Array.from(document.querySelector('#searchresults').children);
+    const query = this.searchbar.value.toLowerCase();
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+          (<HTMLElement>item).style.display = shouldShow ? 'block' : 'none';
+        });
+      });
   }
 }
