@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ElementRef } from '@angular/core';
+import { FoodService } from '../food.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +10,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomePage {
 
-  constructor(private http: HttpClient) { }
+  searchbar;
+  searchresults;
 
-  ngOnInit() {
-    this.http.get('/assets/data/nutrient-data.json').subscribe((response) => {
-      console.log(response);
-  });
+  constructor(private foodService: FoodService, private elementRef: ElementRef) {
   }
 
+  ngAfterViewInit() {
+    this.searchbar = this.elementRef.nativeElement.querySelector('#searchbar');
+    this.searchresults = this.elementRef.nativeElement.querySelector('#searchresults');
+    this.searchbar.addEventListener('ionInput', this.search.bind(this));
+  }
+
+  search(event) {
+    console.log('hej');
+  }
 }
