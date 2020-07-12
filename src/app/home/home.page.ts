@@ -10,6 +10,8 @@ import { FoodService } from '../food.service';
 })
 export class HomePage {
 
+  readonly MAX_SEARCH_RESULT = 100;
+
   searchbar;
 
   constructor(private foodService: FoodService, private elementRef: ElementRef) {
@@ -23,11 +25,22 @@ export class HomePage {
   search(event) {
     const items = Array.from(document.querySelector('#searchresults').children);
     const query = this.searchbar.value.toLowerCase();
-      requestAnimationFrame(() => {
-        items.forEach(item => {
-          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
-          (<HTMLElement>item).style.display = shouldShow ? 'block' : 'none';
-        });
-      });
+
+    requestAnimationFrame(() => {
+      let count = 0;
+
+      for (let i = 0; i < items.length; i++) {
+        let item = <HTMLElement>items[i];
+
+        if (item.textContent.toLowerCase().includes(query) && query.length > 0) {
+          item.style.display = 'block';
+          count++;
+        } else {
+          item.style.display = 'none';
+        }
+
+        if (count > this.MAX_SEARCH_RESULT) { break; }
+      }
+    });
   }
 }
