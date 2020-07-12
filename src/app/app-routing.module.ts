@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'day',
+    loadChildren: () => import('./day/day.module').then( m => m.DayPageModule)
+  },
 ];
 
 @NgModule({
