@@ -11,6 +11,7 @@ export class DayPage {
   readonly MAX_SEARCH_RESULT = 100;
 
   searchbar;
+  date: String = new Date().toISOString();
 
   constructor(private foodService: FoodService, private elementRef: ElementRef) {
   }
@@ -18,6 +19,10 @@ export class DayPage {
   ngAfterViewInit() {
     this.searchbar = this.elementRef.nativeElement.querySelector('#searchbar');
     this.searchbar.addEventListener('ionInput', this.search.bind(this));
+  }
+
+  save() {
+    console.log('save');
   }
 
   search(event) {
@@ -41,5 +46,4 @@ export class DayPage {
       }
     });
   }
-
 }

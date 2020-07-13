@@ -13,10 +13,18 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-datetime [(ngModel)]="date" placeholder="Select Date"></ion-datetime>
+
   <ion-searchbar id="searchbar"></ion-searchbar>
   <ion-list id="searchresults">
     <ion-item style="display: none;" *ngFor="let food of foodService.foods;">
       {{ food.Livsmedelsnamn }}
     </ion-item>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="save()">
+      <ion-icon name="save-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

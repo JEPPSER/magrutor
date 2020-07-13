@@ -7,5 +7,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  hej
+  <ion-list id="daysList"></ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addDay()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

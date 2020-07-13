@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,5 +8,15 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  daysList;
+
+  constructor(private router: Router) {}
+
+  ngAfterViewInit() {
+    this.daysList = document.querySelector('#daysList');
+  }
+
+  addDay() {
+    this.router.navigate(['/day']);
+  }
 }
