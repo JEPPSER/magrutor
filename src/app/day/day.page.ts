@@ -8,7 +8,7 @@ import { FoodService } from '../food.service';
 })
 export class DayPage {
 
-  readonly MAX_SEARCH_RESULT = 100;
+  readonly MAX_SEARCH_RESULT = 50;
 
   searchbar;
   date: String = new Date().toISOString();
@@ -26,20 +26,29 @@ export class DayPage {
   }
 
   search(event) {
-    const items = Array.from(document.querySelector('#searchresults').children);
+    let searchresults = document.querySelector('#searchresults');
     const query = this.searchbar.value.toLowerCase();
+
+    // Clear list.
+    while (searchresults.children.length > 0) {
+      searchresults.removeChild(searchresults.children[0]);
+    }
 
     requestAnimationFrame(() => {
       let count = 0;
 
-      for (let i = 0; i < items.length; i++) {
-        let item = <HTMLElement>items[i];
+      for (let i = 0; i < this.foodService.foods.length; i++) {
+        let food = this.foodService.foods[i];
 
-        if (item.textContent.toLowerCase().includes(query) && query.length > 0) {
-          item.style.display = 'block';
+        if (food.Livsmedelsnamn.toLowerCase().includes(query) && query.length > 0) {
+          let item = document.createElement('ion-item');
+          item.innerText = food.Livsmedelsnamn;
+          item.button = true;
+          item.addEventListener('click', function() {
+            console.log(food);
+          });
+          searchresults.appendChild(item);
           count++;
-        } else {
-          item.style.display = 'none';
         }
 
         if (count > this.MAX_SEARCH_RESULT) { break; }
