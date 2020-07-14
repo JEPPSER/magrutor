@@ -29,6 +29,10 @@ export class DayPage {
   addFood(food, weight) {
     if (weight == '' || weight < 0) { return }
     console.log(food.Livsmedelsnamn + ': ' + weight);
+    let intake = document.querySelector('#intake');
+    let item = document.createElement('ion-item');
+    item.innerText = food.Livsmedelsnamn + ': ' + weight + 'g';
+    intake.appendChild(item);
     this.searchbar.value = '';
     this.search(null);
   }
@@ -82,6 +86,7 @@ export class DayPage {
             this.weightAlert(food);
           });
           searchresults.appendChild(item);
+          item.setAttribute('style', '--ion-item-background:#eee;');
           count++;
         }
 
