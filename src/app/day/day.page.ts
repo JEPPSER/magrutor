@@ -1,5 +1,6 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ErrorHandler } from '@angular/core';
 import { FoodService } from '../food.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-day',
@@ -13,7 +14,7 @@ export class DayPage {
   searchbar;
   date: String = new Date().toISOString();
 
-  constructor(private foodService: FoodService, private elementRef: ElementRef) {
+  constructor(private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef) {
   }
 
   ngAfterViewInit() {
@@ -23,6 +24,39 @@ export class DayPage {
 
   save() {
     console.log('save');
+  }
+  
+  addFood(food, weight) {
+    if (weight == '' || weight < 0) { return }
+    console.log(food.Livsmedelsnamn + ': ' + weight);
+    this.searchbar.value = '';
+    this.search(null);
+  }
+
+  async weightAlert(food) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      message: 'Vikt i gram:',
+      inputs: [
+        {
+          name: 'weight',
+          type: 'number',
+        }
+      ],
+      buttons: [
+        {
+          text: 'OK',
+          handler: (alertData) => {
+            this.addFood(food, alertData.weight);
+          }
+        },
+        {
+          text: 'Cancel'
+        } 
+      ]
+    });
+
+    await alert.present();
   }
 
   search(event) {
@@ -44,8 +78,8 @@ export class DayPage {
           let item = document.createElement('ion-item');
           item.innerText = food.Livsmedelsnamn;
           item.button = true;
-          item.addEventListener('click', function() {
-            console.log(food);
+          item.addEventListener('click', () => {
+            this.weightAlert(food);
           });
           searchresults.appendChild(item);
           count++;
