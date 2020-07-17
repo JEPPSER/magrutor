@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DayPage } from './day.page';
+import { Day } from '../model/day';
 
 const routes: Routes = [
   {

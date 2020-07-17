@@ -9,14 +9,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FoodService } from './food.service';
+import { FoodService } from './services/food.service';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { DayService } from './services/day.service';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [
+    DayService,
     AlertController,
     DatePicker,
     FoodService,

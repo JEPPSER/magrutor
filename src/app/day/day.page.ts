@@ -1,6 +1,9 @@
 import { Component, ElementRef, ErrorHandler } from '@angular/core';
-import { FoodService } from '../food.service';
+import { FoodService } from '../services/food.service';
 import { AlertController } from '@ionic/angular';
+import { Day } from '../model/day';
+import { ActivatedRoute } from '@angular/router';
+import { DayService } from '../services/day.service';
 
 @Component({
   selector: 'app-day',
@@ -12,29 +15,51 @@ export class DayPage {
   readonly MAX_SEARCH_RESULT = 50;
 
   searchbar;
-  date: String = new Date().toISOString();
+  day: Day;
+  date;
 
-  constructor(private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef) {
+  constructor(public dayService: DayService, private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef, private route: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.day = this.dayService.getDay(params.day);
+      this.date = this.day.date;
+    });
   }
 
   ngAfterViewInit() {
     this.searchbar = this.elementRef.nativeElement.querySelector('#searchbar');
     this.searchbar.addEventListener('ionInput', this.search.bind(this));
+
+    for (let i = 0; i < this.day.entries.length; i++) {
+      let entry = this.day.entries[i];
+      this.addFoodEntryElement(entry[0], entry[1]);
+    }
   }
 
   save() {
     console.log('save');
   }
-  
-  addFood(food, weight) {
-    if (weight == '' || weight < 0) { return }
-    console.log(food.Livsmedelsnamn + ': ' + weight);
+
+  addFoodEntryElement(food, weight) {
     let intake = document.querySelector('#intake');
     let item = document.createElement('ion-item');
     item.innerText = food.Livsmedelsnamn + ': ' + weight + 'g';
     intake.appendChild(item);
+  }
+  
+  addFood(food, weight) {
+    if (weight == '' || weight < 0) { return }
+
+    // UI
+    this.addFoodEntryElement(food, weight);
     this.searchbar.value = '';
     this.search(null);
+
+    // Storage
+    this.day.entries.unshift([food, weight]);
+    this.dayService.updateDay(this.day);
   }
 
   async weightAlert(food) {
@@ -86,7 +111,7 @@ export class DayPage {
             this.weightAlert(food);
           });
           searchresults.appendChild(item);
-          item.setAttribute('style', '--ion-item-background:#eee;');
+          item.setAttribute('style', '--ion-item-background:#eef;');
           count++;
         }
 
