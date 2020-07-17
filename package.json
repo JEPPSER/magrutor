@@ -31,6 +31,7 @@
     "cordova-plugin-advanced-http": "^2.5.1",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-file": "^6.0.2",
+    "d3": "^5.16.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
