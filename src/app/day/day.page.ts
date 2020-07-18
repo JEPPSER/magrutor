@@ -19,7 +19,8 @@ export class DayPage {
   svg;
   searchbar;
   day: Day;
-  date;
+  date: Date;
+  dateTime;
 
   constructor(public dayService: DayService, private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef, private route: ActivatedRoute) {
   }
@@ -32,6 +33,12 @@ export class DayPage {
   }
 
   ngAfterViewInit() {
+    this.dateTime = this.elementRef.nativeElement.querySelector('#dateTime');
+    this.dateTime.addEventListener('ionChange', () => {
+      this.day.date = this.date;
+      this.dayService.updateDay(this.day);
+    });
+
     this.calText = this.elementRef.nativeElement.querySelector('#calText');
     this.buildPiechart();
 
@@ -57,15 +64,17 @@ export class DayPage {
       .attr('transform', 'translate(50, 50)');
 
     let calories = 0;
-    let data = { protein: 0, fat: 0, carbs: 0 };
+    let data = { Protein: 0, Fett: 0, Kolhydrater: 0 };
     for (let i = 0; i < this.day.entries.length; i++) {
       let entry = this.day.entries[i];
       calories += entry[0]['Energi (kcal)'] * (entry[1] / 100);
-      data.protein += entry[0]['Protein (g)'] * (entry[1] / 100);
-      data.fat += entry[0]['Kolhydrater (g)'] * (entry[1] / 100);
-      data.carbs += entry[0]['Fett (g)'] * (entry[1] / 100);
+      data.Protein += entry[0]['Protein (g)'] * (entry[1] / 100);
+      data.Fett += entry[0]['Kolhydrater (g)'] * (entry[1] / 100);
+      data.Kolhydrater += entry[0]['Fett (g)'] * (entry[1] / 100);
     }
 
+    this.day.calories = calories;
+    this.dayService.updateDay(this.day);
     this.calText.innerText = Math.round(calories) + ' kcal';
 
     var color = d3.scaleOrdinal()

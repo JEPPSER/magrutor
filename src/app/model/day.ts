@@ -1,6 +1,7 @@
 export class Day {
   entries: [any, number][] = [];
-  date: String;
+  date: Date;
+  calories: number = 0;
   id: number;
 
   constructor(date) {

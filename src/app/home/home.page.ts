@@ -41,10 +41,13 @@ export class HomePage {
       days = value;
     });
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
     for (let i = 0; i < days.length; i++) {
       let day = days[i];
       let item = document.createElement('ion-item');
-      item.innerText = day.date + " [" + day.id + "]";
+      let d = new Date(day.date);
+      item.innerText = d.toLocaleDateString('sv-SE', options) + ': ' + day.calories + ' kcal';
       item.button = true;
       item.addEventListener('click', () => {
         this.router.navigate(['/day'], { queryParams: {day: day.id }});
@@ -54,7 +57,6 @@ export class HomePage {
   }
 
   addDay() {
-    // TODO: save day to storage.
     let day: Day = this.dayService.addNewDay();
     this.router.navigate(['/day'], { queryParams: { day: day.id } });
   }

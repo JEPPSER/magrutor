@@ -24,7 +24,7 @@ export class DayService {
   }
 
   addNewDay() {
-    let day: Day = new Day(new Date().toISOString());
+    let day: Day = new Day(new Date());
 
     // Generate a unique ID for the day.
     let id = this.days.length - 1;

@@ -1,6 +1,6 @@
-
 <ion-content [fullscreen]="true">
-  <ion-datetime [(ngModel)]="date" placeholder="Select Date"></ion-datetime>
+  <ion-datetime id="dateTime" [(ngModel)]="date" placeholder="Select Date"
+    monthShortNames="jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec"></ion-datetime>
 
   <ion-searchbar id="searchbar"></ion-searchbar>
   <ion-list id="searchresults"></ion-list>
@@ -13,9 +13,9 @@
     <h3 id="calText">0 kcal</h3>
     <svg id="piechart"></svg>
   </ion-card>
-  
+
   <ion-card>
     <ion-list id="intake"></ion-list>
   </ion-card>
-  
+
 </ion-content>
