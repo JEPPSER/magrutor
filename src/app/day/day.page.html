@@ -1,13 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dagligt intag</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-datetime id="dateTime" [(ngModel)]="date" placeholder="Select Date"
     monthShortNames="jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec"></ion-datetime>
 
   <ion-searchbar id="searchbar"></ion-searchbar>
   <ion-list id="searchresults"></ion-list>
-
-  <ion-header>
-    <ion-title>Dagligt intag</ion-title><br>
-  </ion-header>
 
   <ion-card>
     <h3 id="calText">0 kcal</h3>
