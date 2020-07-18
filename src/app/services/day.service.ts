@@ -46,6 +46,11 @@ export class DayService {
     return day;
   }
 
+  removeDay(day: Day) {
+    this.days.splice(this.days.indexOf(day), 1);
+    this.updateStorage();
+  }
+
   updateDay(day: Day) {
     for (let i = 0; i < this.days.length; i++) {
       if (this.days[i].id == day.id) {

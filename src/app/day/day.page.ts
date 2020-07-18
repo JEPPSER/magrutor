@@ -2,7 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { FoodService } from '../services/food.service';
 import { AlertController } from '@ionic/angular';
 import { Day } from '../model/day';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DayService } from '../services/day.service';
 import * as d3 from 'd3';
 
@@ -22,7 +22,7 @@ export class DayPage {
   date: Date;
   dateTime;
 
-  constructor(public dayService: DayService, private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef, private route: ActivatedRoute) {
+  constructor(private router: Router, public dayService: DayService, private alertController: AlertController, private foodService: FoodService, private elementRef: ElementRef, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -51,10 +51,6 @@ export class DayPage {
     }
   }
 
-  save() {
-    console.log('save');
-  }
-
   buildPiechart() {
     d3.selectAll('svg > *').remove();
     this.svg = d3.select('#piechart')
@@ -69,8 +65,8 @@ export class DayPage {
       let entry = this.day.entries[i];
       calories += entry[0]['Energi (kcal)'] * (entry[1] / 100);
       data.Protein += entry[0]['Protein (g)'] * (entry[1] / 100);
-      data.Fett += entry[0]['Kolhydrater (g)'] * (entry[1] / 100);
-      data.Kolhydrater += entry[0]['Fett (g)'] * (entry[1] / 100);
+      data.Fett += entry[0]['Fett (g)'] * (entry[1] / 100);
+      data.Kolhydrater += entry[0]['Kolhydrater (g)'] * (entry[1] / 100);
     }
 
     this.day.calories = calories;
@@ -145,6 +141,27 @@ export class DayPage {
     this.buildPiechart();
   }
 
+  async removeDay() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      message: 'Vill du ta bort denna dagen?',
+      buttons: [
+        {
+          text: 'Ja',
+          handler: () => {
+            this.dayService.removeDay(this.day);
+            this.router.navigate(['/']);
+          }
+        },
+        {
+          text: 'Nej'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async weightAlert(food) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -163,7 +180,7 @@ export class DayPage {
           }
         },
         {
-          text: 'Cancel'
+          text: 'Avbryt'
         }
       ]
     });

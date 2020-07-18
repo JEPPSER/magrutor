@@ -30,6 +30,10 @@ export class HomePage {
     this.loadDays();
   }
 
+  ionViewWillEnter() {
+    this.loadDays();
+  }
+
   async loadDays() {
     // Clear days.
     while (this.daysList.children.length > 0) {
@@ -49,9 +53,15 @@ export class HomePage {
       let d = new Date(day.date);
       item.innerText = d.toLocaleDateString('sv-SE', options) + ': ' + day.calories + ' kcal';
       item.button = true;
+
       item.addEventListener('click', () => {
         this.router.navigate(['/day'], { queryParams: {day: day.id }});
       });
+
+      item.addEventListener('press', () => {
+        console.log('press');
+      });
+
       this.daysList.appendChild(item);
     }
   }
