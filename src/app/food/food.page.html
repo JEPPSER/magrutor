@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Matvaror</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label position="stacked">Namn:</ion-label>
+      <ion-input [(ngModel)]="name" required type="text" id="nameInput"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Protein (/100g):</ion-label>
+      <ion-input [(ngModel)]="protein" required type="number" id="proteinInput"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Fett (/100g):</ion-label>
+      <ion-input [(ngModel)]="fat" required type="number" id="fatInput"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Kolhydrater (/100g):</ion-label>
+      <ion-input [(ngModel)]="carbs" required type="number" id="carbsInput"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Kalorier (/100g):</ion-label>
+      <ion-input [(ngModel)]="calories" required type="number" id="caloriesInput"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-card>
+    <ion-list id="foods"></ion-list>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addFood()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

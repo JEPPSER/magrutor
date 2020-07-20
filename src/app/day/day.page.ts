@@ -51,6 +51,10 @@ export class DayPage {
     }
   }
 
+  addFood() {
+    this.router.navigate(['/food']);
+  }
+
   buildPiechart() {
     d3.selectAll('svg > *').remove();
     this.svg = d3.select('#piechart')
@@ -124,7 +128,7 @@ export class DayPage {
 
     let calories = entry[0]['Energi (kcal)'] * (entry[1] / 100);
 
-    item.innerText = entry[0].Livsmedelsnamn + ': ' + entry[1] + 'g (' + calories + ' kcal)';
+    item.innerText = entry[0].Livsmedelsnamn + ': ' + entry[1] + 'g (' + Math.round(calories) + ' kcal)';
     let btn = document.createElement('ion-button');
     btn.setAttribute('style', 'padding-left: 5px');
     btn.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
@@ -143,7 +147,7 @@ export class DayPage {
     });
   }
 
-  addFood(food, weight) {
+  addFoodEntry(food, weight) {
     if (weight == '' || weight < 0) { return }
 
     let entry: [any, number] = [food, weight];
@@ -196,7 +200,7 @@ export class DayPage {
         {
           text: 'OK',
           handler: (alertData) => {
-            this.addFood(food, alertData.weight);
+            this.addFoodEntry(food, alertData.weight);
           }
         },
         {
