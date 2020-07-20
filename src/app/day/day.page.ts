@@ -121,8 +121,12 @@ export class DayPage {
   addFoodEntryElement(entry: [any, number]) {
     let intake = document.querySelector('#intake');
     let item = document.createElement('ion-item');
-    item.innerText = entry[0].Livsmedelsnamn + ': ' + entry[1] + 'g';
+
+    let calories = entry[0]['Energi (kcal)'] * (entry[1] / 100);
+
+    item.innerText = entry[0].Livsmedelsnamn + ': ' + entry[1] + 'g (' + calories + ' kcal)';
     let btn = document.createElement('ion-button');
+    btn.setAttribute('style', 'padding-left: 5px');
     btn.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
     item.appendChild(btn);
     intake.appendChild(item);
