@@ -51,7 +51,7 @@ export class HomePage {
       let day = days[i];
       let item = document.createElement('ion-item');
       let d = new Date(day.date);
-      item.innerText = d.toLocaleDateString('sv-SE', options) + ': ' + day.calories + ' kcal';
+      item.innerText = d.toLocaleDateString('sv-SE', options) + ': ' + Math.round(day.calories) + ' kcal';
       item.button = true;
 
       item.addEventListener('click', () => {

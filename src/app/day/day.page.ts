@@ -47,7 +47,7 @@ export class DayPage {
 
     for (let i = 0; i < this.day.entries.length; i++) {
       let entry = this.day.entries[i];
-      this.addFoodEntryElement(entry[0], entry[1]);
+      this.addFoodEntryElement(entry);
     }
   }
 
@@ -118,24 +118,40 @@ export class DayPage {
       .attr("x", 14);
   }
 
-  addFoodEntryElement(food, weight) {
+  addFoodEntryElement(entry: [any, number]) {
     let intake = document.querySelector('#intake');
     let item = document.createElement('ion-item');
-    item.innerText = food.Livsmedelsnamn + ': ' + weight + 'g';
+    item.innerText = entry[0].Livsmedelsnamn + ': ' + entry[1] + 'g';
+    let btn = document.createElement('ion-button');
+    btn.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
+    item.appendChild(btn);
     intake.appendChild(item);
+
+    btn.addEventListener('click', () => {
+      
+      // Storage
+      this.day.entries.splice(this.day.entries.indexOf(entry), 1);
+      this.dayService.updateDay(this.day);
+
+      // UI
+      intake.removeChild(item);
+      this.buildPiechart();
+    });
   }
 
   addFood(food, weight) {
     if (weight == '' || weight < 0) { return }
 
-    // UI
-    this.addFoodEntryElement(food, weight);
-    this.searchbar.value = '';
-    this.search(null);
+    let entry: [any, number] = [food, weight];
 
     // Storage
-    this.day.entries.unshift([food, weight]);
+    this.day.entries.unshift(entry);
     this.dayService.updateDay(this.day);
+
+    // UI
+    this.addFoodEntryElement(entry);
+    this.searchbar.value = '';
+    this.search(null);
 
     // Update piechart
     this.buildPiechart();
