@@ -41,11 +41,12 @@ export class FoodPage implements OnInit {
 
   addFoodElement(food) {
     let item = document.createElement('ion-item');
-    item.innerText = food.Livsmedelsnamn;
     let btn = document.createElement('ion-button');
-    btn.setAttribute('style', 'padding-left: 5px');
+    btn.setAttribute('style', 'padding-right: 5px');
     btn.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
     item.appendChild(btn);
+    item.append(food.Livsmedelsnamn);
+
     this.foods.appendChild(item);
 
     btn.addEventListener('click', () => {
@@ -106,6 +107,11 @@ export class FoodPage implements OnInit {
           handler: () => {
             this.foodService.addLocalFood(food);
             this.loadLocalFoods();
+            this.name = '';
+            this.protein = '';
+            this.fat = '';
+            this.carbs = '';
+            this.calories = '';
           }
         },
         {
